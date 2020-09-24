@@ -1,13 +1,10 @@
 const inquirer = require("inquirer");
 const fs = require("fs");
-const util = require("util");
 
-const writeFileAsync = util.promisify(fs.writeFile);
 
 // array of questions for user
 
-function promptUser() {
-    return inquirer.prompt([
+inquirer.prompt([
         {
             type: "input",
             name: "title",
@@ -34,11 +31,11 @@ function promptUser() {
             message: "What is the usage information?"
         },
         {
-            type: "selector",
+            type: "checkbox",
             name: "license",
             message: "Select the license for your README.",
-            license: [
-                "GNU GPLv3",
+            choices: [
+                "GNU GPLv3 License",
                 "MIT License",
                 "ISC License"
             ]
@@ -55,45 +52,38 @@ function promptUser() {
         },
         {
             type: "input",
-            name: "questions",
+            name: "questions1",
             message: "What is your GitHub username"
         },
         {
             type: "input",
-            name: "questions",
+            name: "questions2",
             message: "What is your GitHub URL?"
         },
         {
             type: "input",
-            name: "questions",
+            name: "questions3",
             message: "What is your eamil address?"
         }
-    ]);
-}   
+    ]).then(response => {
+        // function to write README file
+        fs.writeToFile("README.md", JSON.stringify(response, null, '\t'), function(err) {
 
-promptUser()
-// function to write README file
-    .then(function(data) {
-        const html = generateHTML(data);
-        return writeFileAsync("readme.html", data);
+            if (err) {
+              return console.log(err);
+            }
+        
+            console.log("Success!");
+        
+          });
     })
 
-    // function to initialize program
-    async function init() {
-        console.log("hi")
-        try {
-          const answers = await promptUser();
-      
-          const html = generateHTML(answers);
-      
-          await writeFileAsync("readme.html", data);
-      
-          console.log("Successfully wrote to readme.html");
-        } catch(err) {
-          console.log(err);
-        }
-      }
 
-    // function call to initialize program
-    init();
 
+// function to initialize program
+function init() {
+
+}
+
+// function call to initialize program
+init();
