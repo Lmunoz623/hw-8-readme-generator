@@ -34,9 +34,14 @@ function promptUser() {
             message: "What is the usage information?"
         },
         {
-            type: "input",
+            type: "selector",
             name: "license",
-            message: "Select the license for your README."
+            message: "Select the license for your README.",
+            license: [
+                "GNU GPLv3",
+                "MIT License",
+                "ISC License"
+            ]
         },
         {
             type: "input",
